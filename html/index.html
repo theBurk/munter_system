@@ -20,9 +20,9 @@
                 <!-- munter rate -->
                 <!-- this will add the CSS class 'has-error' (Bootstrap) to the "div" if "rate" is invalid -->
                 <div class="form-group" ng-class="{'has-error': !isValidRate(munterTrip.rate)}">
-                    <label for="rate" class="col-xs-4 control-label text-right">munter rate</label>
+                    <label for="rate" class="col-xs-3 control-label text-right">munter rate</label>
                     <div class="col-xs-4">
-                        <input type="input" class="form-control" id="rate" placeholder="rate" ng-model="munterTrip.rate" />
+                        <input type="input" class="form-control text-right" id="rate" placeholder="rate" ng-model="munterTrip.rate" />
                         <label class="control-label" for="rate" ng-hide="isValidRate(munterTrip.rate)">
                             invalid entry
                         </label>
@@ -31,9 +31,9 @@
 
                 <!-- distance -->
                 <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.distance)}">
-                    <label for="distance" class="col-xs-4 control-label text-right">distance</label>
+                    <label for="distance" class="col-xs-3 control-label text-right">distance</label>
                     <div class="col-xs-4">
-                        <input type="input" class="form-control" id="distance" placeholder="distance" ng-model="munterTrip.distance" />
+                        <input type="input" class="form-control text-right" id="distance" placeholder="distance" ng-model="munterTrip.distance" />
                         <label class="control-label" for="distance" ng-hide="isValidLength(munterTrip.distance)">
                             invalid entry
                         </label>
@@ -45,9 +45,9 @@
 				
 				<!-- initialElevation -->
                 <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.initialElevation)}">
-                    <label for="initialElevation" class="col-xs-4 control-label text-right">initial elevation</label>
+                    <label for="initialElevation" class="col-xs-3 control-label text-right">initial elevation</label>
                     <div class="col-xs-4">
-                        <input type="input" class="form-control" id="initialElevation" placeholder="elevation" ng-model="munterTrip.initialElevation" />
+                        <input type="input" class="form-control text-right" id="initialElevation" placeholder="elevation" ng-model="munterTrip.initialElevation" />
                         <label class="control-label" for="initialElevation" ng-hide="isValidLength(munterTrip.initialElevation)">
                             invalid entry
                         </label>
@@ -59,9 +59,9 @@
 				
 				<!-- finalElevation -->
                 <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.finalElevation)}">
-                    <label for="finalElevation" class="col-xs-4 control-label text-right">  final elevation</label>
+                    <label for="finalElevation" class="col-xs-3 control-label text-right">  final elevation</label>
                     <div class="col-xs-4">
-                        <input type="input" class="form-control" id="finalElevation" placeholder="elevation" ng-model="munterTrip.finalElevation" />
+                        <input type="input" class="form-control text-right" id="finalElevation" placeholder="elevation" ng-model="munterTrip.finalElevation" />
                         <label class="control-label" for="finalElevation" ng-hide="isValidLength(munterTrip.finalElevation)">
                             invalid entry
                         </label>
@@ -71,14 +71,29 @@
                     </div>
                 </div>
             </form>
-        </div>
-		
-		<!-- Output -->
-        <div class="row">
-            <h4>output</h4>
-			<label> elevation change: </label>  <b ng-show="showElevationChange()">{{elevationChange()|number}} {{elevationUnit}}</b><br />
-            <br />
-			<label> time: </label> <b ng-show="showTime()">{{time()|prettyTime}}</b><br />
+			
+			<br />
+			<!-- Output -->
+			<h4>output</h4>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="elevationChange" class="col-xs-3 control-label text-right"> elevation change </label>
+					<div class="col-xs-4">
+						<b class="text-center form-control" ng-show="showElevationChange()">{{elevationChange()|number}} {{munterTrip.elevationUnit}}</b>
+					</div>
+                </div>
+				<div class="form-group">
+                    <label for="time" class="col-xs-3 control-label text-right"> time </label>  
+					<div class="col-xs-4">
+						<b class="text-center form-control" ng-show="showTime()">{{time()|prettyTime}}</b><br />
+					</div>
+				</div>
+			
+			
+			
+			
+			
+			
         </div>
     </div>
 </body>
