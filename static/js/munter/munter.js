@@ -4,13 +4,13 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
     function($scope, MunterTrip) {
 		// Munter System units		
         $scope.elevationUnits = {
-            m: "meters",
-            ft: "feet"
+            m: "m",
+            ft: "ft"
         };
 		
 		$scope.distanceUnits = {
-			mi: "miles",
-			km: "kilometers"
+			mi: "mi",
+			km: "km"
 		};
 		
         // balling out of control with a model!
@@ -27,7 +27,7 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
 
 		// calculates time in seconds
 		$scope.time = function() {
-			var munterUnits = normalize($scope.munterTrip.distance, $scope.munterTrip.distanceUnit)/1000 + Math.abs(normalize($scope.elevationChange(), $scope.munterTrip.elevationUnit))/100;
+			var munterUnits = normalize($scope.munterTrip.distance, $scope.munterTrip.distanceUnit)/1000 + Math.abs(normalize($scope.munterTrip.elevation, $scope.munterTrip.elevationUnit))/100;
 			return munterUnits / ($scope.munterTrip.rate/3600);
 		};
 
@@ -42,13 +42,8 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
 		};
 		
 		// true if all necessary inputs are present and valid
-		$scope.showElevationChange = function () {
-			return $scope.munterTrip.initialElevation && $scope.munterTrip.finalElevation && $scope.isValidLength($scope.munterTrip.initialElevation) && $scope.isValidLength($scope.munterTrip.finalElevation);
-		};
-		
-		// true if all necessary inputs are present and valid
 		$scope.showTime = function() {
-			return $scope.showElevationChange() && $scope.munterTrip.rate && $scope.munterTrip.distance && $scope.isValidRate($scope.munterTrip.rate) && $scope.isValidLength($scope.munterTrip.distance);
+			return $scope.munterTrip.elevation && $scope.munterTrip.rate && $scope.munterTrip.distance && $scope.isValidRate($scope.munterTrip.rate) && $scope.isValidLength($scope.munterTrip.distance) && $scope.isValidLength($scope.munterTrip.elevation);
 		};
     }
 ]);
@@ -94,13 +89,13 @@ msa.filter("prettyTime", function(){
 // a function to convert from miles/kilometers/feet to meters
 function normalize(value, units) {
 	switch(units) {
-		case "miles":
+		case "mi":
 			return value * 1609;
-		case "kilometers":
+		case "km":
 			return value * 1000;
-		case "feet":
+		case "ft":
 			return value / 3.281;
-		case "meters":
+		case "m":
 			return value;
 	}
 }

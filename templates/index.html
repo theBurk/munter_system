@@ -10,10 +10,17 @@
     <script type="text/javascript" src="{% static 'js/lib/angular/angular-route.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/lib/angular/angular-resource.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/lib/bootstrap/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/munter.css' %}">
+<!--	<link rel="stylesheet" type="text/css" href="{% static 'css/munter.css' %}">
     
     <!-- your stuff below -->
     <script type="text/javascript" src="{% static 'js/munter/munter.js' %}"></script>
+	<style type ="text/css">
+		body { 
+			padding-bottom: 70px; 
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	</style>
 </head>
 <body>
 
@@ -21,19 +28,24 @@
 {% verbatim %}
 
     <div class="container ms-fullScreen" ng-controller="MunterSystemCtrl">
+	
 		<div class="ms-topBar">
-			<p div class="ms-topBarTitle">m u n t e r | s y s t e m</p>
+			<h4 div class="text-center ms-topBarTitle">m u n t e r | s y s t e m</h4>
 		</div>
+		
+		
+		
         <div class="row">
             <h4 class="ms-inputTitle">input</h4>
             <form class="form-horizontal">
+			
                 <!-- munter rate -->
                 <!-- this will add the CSS class 'has-error' (Bootstrap) to the "div" if "rate" is invalid -->
                 <div class="form-group" ng-class="{'has-error': !isValidRate(munterTrip.rate)}">
-                    <label for="rate" class="col-xs-5 control-label ms-inputLabel">munter rate</label>
-                    <div class="col-xs-3">
-                        <input type="input" class="form-control ms-inputValue" id="rate" placeholder="rate" ng-model="munterTrip.rate" />
-                        <label class="control-label ms-errorMessage" for="rate" ng-hide="isValidRate(munterTrip.rate)">
+                    <label for="rate" class="col-xs-4 control-label ms-inputLabel text-right">rate</label>
+                    <div class="col-xs-4">
+                        <input type="input" class="form-control ms-inputValue text-right" id="rate" placeholder="0" ng-model="munterTrip.rate" />
+                        <label class="control-label ms-errorMessage text-right" for="rate" ng-hide="isValidRate(munterTrip.rate)">
                             invalid entry
                         </label>
                     </div>
@@ -41,63 +53,54 @@
 
                 <!-- distance -->
                 <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.distance)}">
-                    <label for="distance" class="col-xs-5 control-label ms-inputLabel">distance</label>
-                    <div class="col-xs-3">
-                        <input type="input" class="form-control ms-inputValue" id="distance" placeholder="distance" ng-model="munterTrip.distance" />
-                        <label class="control-label ms-errorMessage" for="distance" ng-hide="isValidLength(munterTrip.distance)">
+                    <label for="distance" class="col-xs-4 control-label ms-inputLabel text-right">distance</label>
+                    <div class="col-xs-4">
+                        <input type="input" class="form-control ms-inputValue text-right" id="distance" placeholder="0" ng-model="munterTrip.distance" />
+                        <label class="control-label ms-errorMessage text-right" for="distance" ng-hide="isValidLength(munterTrip.distance)">
                             invalid entry
                         </label>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-4">
                         <select class="form-control ms-inputUnit" ng-model="munterTrip.distanceUnit" name="distanceUnit" ng-options="v for (k,v) in distanceUnits"></select>
                     </div>
                 </div>
-				
-				<!-- initialElevation -->
-                <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.initialElevation)}">
-                    <label for="initialElevation" class="col-xs-5 control-label ms-inputLabel">initial elevation</label>
-                    <div class="col-xs-3">
-                        <input type="input" class="form-control ms-inputValue" id="initialElevation" placeholder="elevation" ng-model="munterTrip.initialElevation" />
-                        <label class="control-label ms-errorMessage" for="initialElevation" ng-hide="isValidLength(munterTrip.initialElevation)">
+
+				<!--  elevation -->
+                <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.elevation)}">
+                    <label for="elevation" class="col-xs-4 control-label ms-inputLabel text-right">elevation</label>
+                    <div class="col-xs-4">
+                        <input type="input" class="form-control ms-inputValue text-right" id="elevation" placeholder="0" ng-model="munterTrip.elevation" />
+                        <label class="control-label ms-errorMessage text-right" for="elevation" ng-hide="isValidLength(munterTrip.elevation)">
                             invalid entry
                         </label>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-4">
                         <select class="form-control ms-inputUnit" ng-model="munterTrip.elevationUnit" name="elevationUnit" ng-options="v for (k,v) in elevationUnits"></select>
                     </div>
                 </div>
-				
-				<!-- finalElevation -->
-                <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.finalElevation)}">
-                    <label for="finalElevation" class="col-xs-5 control-label ms-inputLabel">  final elevation</label>
-                    <div class="col-xs-3">
-                        <input type="input" class="form-control ms-inputValue" id="finalElevation" placeholder="elevation" ng-model="munterTrip.finalElevation" />
-                        <label class="control-label ms-errorMessage" for="finalElevation" ng-hide="isValidLength(munterTrip.finalElevation)">
-                            invalid entry
-                        </label>
-                    </div>
-                    <div class="col-xs-3">
-						<p class="form-control ms-inputUnit">{{munterTrip.elevationUnit}}</p>
-                    </div>
-                </div>
-            </form>
-			
-			<br />
+			</form>
+			<br /> 
 			<!-- Output -->
-            <form class="form-horizontal ms-outputBackground">
-                <div class="form-group">
-                    <label for="elevationChange" class="col-xs-5 control-label ms-elevationChangeLabel"> elevation change </label>
-					<div class="col-xs-3">
-						<b class="text-center ms-elevationChangeValue" ng-show="showElevationChange()">{{elevationChange()|number}} {{munterTrip.elevationUnit}}</b>
-					</div>
-                </div>
-				<div class="form-group">
-                    <label for="time" class="col-xs-5 control-label ms-timeLabel"> time </label>  
-					<div class="col-xs-7">
-						<b class="text-center ms-timeValue" ng-show="showTime()">{{time()|prettyTime}}</b><br />
-					</div>
-				</div>
-        </div>
+			<h4 class="ms-inputTitle" ng-show="showTime()">time</h4>
+            <h2 class="text-center ms-timeValue" ng-show="showTime()">{{time()|prettyTime}}</h2>
+			
+		</div>
+		
+		<nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse" role="navigation">
+			<div class="container">
+				<ul class="nav navbar-nav pull-left">
+					<li class="text-center"><a href="#">time<br>calc</a></li>
+					<li class="divider"></li>
+					<li class="text-center"><a href="#">rate<br>calc</a></li>
+				</ul>
+				
+				<ul class="nav navbar-nav pull-right">
+					<li class="text-center"><a href="#">about</a></li>
+					<li class="text-center"><a href="#">typical<br>rates</a></li>
+				</ul>			
+			</div>			
+		</nav>	
+		
     </div>
 
 {% endverbatim %}
