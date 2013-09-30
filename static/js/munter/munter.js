@@ -56,7 +56,7 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
         // test if minutes input is valid
 		$scope.isValidMinutes= function(val) {
 			return !val || (isNumber(val) && val>=0 && val<600);
-		};		
+		};
 		
 		// true if all necessary inputs are present and valid
 		$scope.showTime = function() {
@@ -127,3 +127,16 @@ function normalize(value, units) {
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
+
+// --------------------------------------------------
+//  Mucking Around!
+// --------------------------------------------------
+msa.controller("BurkCtrl", ["$scope",
+    function($scope) {
+        $scope.mOptions = {
+            1: "blue",
+            2: "red",
+            3: "green"
+        };
+    }
+]);
