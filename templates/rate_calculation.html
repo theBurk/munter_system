@@ -10,8 +10,8 @@
     <script type="text/javascript" src="{% static 'js/lib/angular/angular-route.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/lib/angular/angular-resource.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/lib/bootstrap/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/munter.css' %}">
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/munter.css' %}">
+	
     <!-- your stuff below -->
     <script type="text/javascript" src="{% static 'js/munter/munter.js' %}"></script>
 
@@ -21,27 +21,18 @@
 <!-- NOTE: to mix AngularJS templates and Django templates, you must wrap the entire content block in verbatim/endverbatim tags -->
 {% verbatim %}
 
-    <div class="container" ng-controller="MunterSystemCtrl">		
+    <div class="container" ng-controller="MunterSystemCtrl">
+	
 		<div>
 			<h4 div class="text-center titleBar">m u n t e r | s y s t e m</h4>
 		</div>
 		
+		
+		
         <div class="row">
-            <h4>time calculation mode</h4>
+            <h4>rate calculation mode</h4>
             <form class="form-horizontal">
 			
-                <!-- munter rate -->
-                <!-- this will add the CSS class 'has-error' (Bootstrap) to the "div" if "rate" is invalid -->
-                <div class="form-group" ng-class="{'has-error': !isValidRate(munterTrip.rate)}">
-                    <label for="rate" class="col-xs-4 control-label text-right">rate</label>
-                    <div class="col-xs-4">
-                        <input type="input" class="form-control text-right" id="rate" placeholder="0" ng-model="munterTrip.rate" />
-                        <label class="control-label text-right" for="rate" ng-hide="isValidRate(munterTrip.rate)">
-                            invalid entry
-                        </label>
-                    </div>
-                </div>
-
                 <!-- distance -->
                 <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.distance)}">
                     <label for="distance" class="col-xs-4 control-label text-right">distance</label>
@@ -69,18 +60,48 @@
                         <select class="form-control" ng-model="munterTrip.elevationUnit" name="elevationUnit" ng-options="v for (k,v) in elevationUnits"></select>
                     </div>
                 </div>
+				
+				
+				<!--  time errors in both hours and minutes?-->
+                <div class="form-group" ng-class="{'has-error': !isValidHours(munterTrip.hours)}">
+                    <label for="hours" class="col-xs-4 control-label text-right">time</label>
+                    <div class="col-xs-4">
+                        <input type="input" class="form-control text-right" id="hours" placeholder="0" ng-model="munterTrip.hours" />
+                        <label class="control-label text-right" for="hours" ng-hide="isValidLength(munterTrip.hours)">
+                            invalid entry
+                        </label>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="form-control pForm">hr</p>
+                    </div>
+				</div>
+				
+                <div class="form-group" ng-class="{'has-error': !isValidMinutes(munterTrip.minutes)}">
+                    <label for="minutes" class="col-xs-4 control-label text-right"></label>
+                    <div class="col-xs-4">
+                        <input type="input" class="form-control text-right" id="minutes" placeholder="0" ng-model="munterTrip.minutes" />
+                        <label class="control-label text-right" for="minutes" ng-hide="isValidLength(munterTrip.minutes)">
+                            invalid entry
+                        </label>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="form-control pForm">min</p>
+                    </div>
+                </div>
+				
 			</form>
-			<br /> 
-			<!-- Output -->
-			<h4 ng-show="showTime()">time</h4>
-            <h2 class="text-center" ng-show="showTime()">{{time()|prettyTime}}</h2>
+			<br />
+			
+			<!-- Output show rate function -->
+			<h4 ng-show="showRate()">rate</h4>
+            <h2 class="text-center" ng-show="showRate()">{{rate()}}</h2>
 			
 		</div>
 		
 		<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
 				<ul class="nav nav-pills nav-justified">
-					<li class="text-center active"><a class="navBarText" href="index.html">time<br>calc</a></li>
-					<li class="text-center"><a class="navBarText" href="rate_calculation.html">rate<br>calc</a></li>
+					<li class="text-center"><a class="navBarText" href="index.html">time<br>calc</a></li>
+					<li class="text-center active"><a class="navBarText" href="rate_calculation.html">rate<br>calc</a></li>
 					<li class="text-center"><a class="navBarText" href="typical_rates.html">typical<br>rates</a></li>
 					<li class="text-center"><a class="navBarText" href="about.html">about<br>-</a></li>					
 				</ul>	

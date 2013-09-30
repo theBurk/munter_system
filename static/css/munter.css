@@ -1,57 +1,32 @@
-.ms-fullScreen{
-	padding: 0px;}
-	
-.ms-topBar{
-	text-align: center;
-	background: -webkit-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%);
-	padding: 0px;}
-
-.ms-topBarTitle{
-	font-size: 70px;
-	color: hsl(0,0%,80%);
-	font-weight: normal;}
-
-.ms-inputTitle{
-	font-size: 70px;
-	margin-left: 25px;}
-	
-.ms-inputLabel{
-	font-size: 50px;
+body { 
+	padding-bottom: 70px; 
+	padding-left: 10px;
 	padding-right: 10px;
-	text-align: right;}	
-	
-.ms-inputValue{
-	height: 90px;
-	font-size: 50px;
-	margin: 15px;}
+}
 
-.ms-inputUnit{
-	height: 90px;
-	font-size: 50px;
-	margin-top: 15px;}
+.titleBar {
+	color: #eee;
+	background-color: #222;
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-top: 0px;
+	padding: 10px;
+}
 
-.ms-errorMessage{
-	}
-	
-.ms-outputBackground{
-	background-color: hsl(0,0%,10%);
-	padding-top: 30px;
-	height: 500px;}
-	
-.ms-elevationChangeLabel{
-	color: hsl(0,0%,80%);
-	font-size: 50px;
-	text-align: right;}
-	
-.ms-elevationChangeValue{
-	color: hsl(0,0%,80%);
-	font-size: 50px;}
-	
-.ms-timeLabel{
-	color: hsl(0,0%,80%);
-	font-size: 50px;	
-	text-align: right;}
+.pForm {
+	margin: 0px;
+}
 
-.ms-timeValue{
-	color: hsl(0, 0%,80%);
-	font-size: 120px;}
+h2{
+	margin-top: 0px;
+}
+
+.navBarText{
+	font-size: 90%;
+	color: #eee;
+}
+
+.text{
+	padding-left: 5px;
+	padding-right: 5px;
+}

@@ -7,7 +7,10 @@ import web.views
 
 urlpatterns = patterns("",
     # Examples:
-    url(r"^", web.views.index),
+	url(r"^typical_rates", web.views.typical_rates),
+	url(r"^rate_calculation", web.views.rate_calculation),
+    url(r"^about", web.views.about),
+	url(r"^", web.views.index),
     # url(r'^web/', include('web.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -1,0 +1,79 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html ng-app="msApp">
+<head>
+    <title>m u n t e r | s y s t e m | 2 . 0</title>
+
+    <!-- libs -->
+    <script type="text/javascript" src="{% static 'js/lib/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/lib/angular/angular-route.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/lib/angular/angular-resource.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lib/bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/munter.css' %}">
+	
+    <!-- your stuff below -->
+    <script type="text/javascript" src="{% static 'js/munter/munter.js' %}"></script>
+	
+</head>
+<body>
+
+<!-- NOTE: to mix AngularJS templates and Django templates, you must wrap the entire content block in verbatim/endverbatim tags -->
+{% verbatim %}
+
+    <div class="container" ng-controller="MunterSystemCtrl">
+	
+		<div>
+			<h4 div class="text-center titleBar">m u n t e r | s y s t e m</h4>
+		</div>
+		
+		
+		
+        <div class="row">
+            <h4>typical munter rates</h4>
+
+			<p class="text">For your time estimate to be accurate, an appropriate rate must be specified, 
+				which will depend on the characteristics of the terrain, method of travel and fitness of your party.  
+				Some typical, moderate rates are given below.  Use the "rate calculator mode' to learn more accurately
+				you can expect from yourself.</p>
+				
+			<br />
+				
+			<table class="table">
+				<tr>
+					<th class="col-xs-8">uphill on foot or skis</th>
+					<td class="col-xs-4 text-center">4</td>
+				</tr>
+				<tr>
+					<th class="col-xs-8">downhill on foot</th>
+					<td class="col-xs-4 text-center">6</td>
+				</tr>
+				<tr>
+					<th class="col-xs-8">downhill on skis</th>
+					<td class="col-xs-4 text-center">10</td>
+				<tr>
+				<tr>
+					<th class="col-xs-8">off-trail bushwhacking</th>
+					<td class="col-xs-4 text-center">2</td>
+				<tr>
+				<tr>
+					<th class="col-xs-8"></th>
+					<td class="col-xs-4 text-center"></td>
+				<tr>
+			</table>
+		</div>
+		
+		<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+				<ul class="nav nav-pills nav-justified">
+					<li class="text-center"><a class="navBarText" href="index.html">time<br>calc</a></li>
+					<li class="text-center"><a class="navBarText" href="rate_calculation.html">rate<br>calc</a></li>
+					<li class="text-center active"><a class="navBarText" href="typical_rates.html">typical<br>rates</a></li>
+					<li class="text-center"><a class="navBarText" href="about.html">about<br>-</a></li>					
+				</ul>	
+		</nav>	
+    </div>
+
+{% endverbatim %}
+
+</body>
+</html>
