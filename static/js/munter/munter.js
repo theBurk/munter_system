@@ -20,14 +20,28 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
             distanceUnit: $scope.distanceUnits.mi,
         });
 
-		// calculates time in seconds
-		$scope.time = function() {
+		// calculates time in seconds using munter system
+		$scope.munterTime = function() {
 			var dist = $scope.munterTrip.distance ? $scope.munterTrip.distance : 0;
 			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
 			var munterUnits = normalize(dist, $scope.munterTrip.distanceUnit)/1000 + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit))/100;
 			return munterUnits / ($scope.munterTrip.rate/3600);
 		};
 
+		// calculates time in seconds using chauvin system
+		$scope.chauvinTime = function() {
+			var dist = $scope.munterTrip.distance ? $scope.munterTrip.distance : 0;
+			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
+			var chauvinUnits = (normalize(dist, $scope.munterTrip.distanceUnit) + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit)))/60;
+			return chauvinUnits * ($scope.munterTrip.rate * 60);
+		};
+
+		// calculates time in seconds for technical climbing
+		$scope.technicalTime = function() {
+			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
+			return elev * ($scope.munterTrip.rate * 60);
+		};
+		
 		// calculates munter rate
 		$scope.rate = function() {
 			var dist = $scope.munterTrip.distance ? $scope.munterTrip.distance : 0;
@@ -45,7 +59,7 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
 		
         // test if rate input is valid
 		$scope.isValidRate = function(val) {
-			return !val || (isNumber(val) && val>0 && val<20);
+			return !val || (isNumber(val) && val>0 && val<200);
 		};
 		
         // test if hours input is valid

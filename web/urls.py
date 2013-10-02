@@ -7,9 +7,13 @@ import web.views
 
 urlpatterns = patterns("",
     # Examples:
-	url(r"^typical_rates", web.views.typical_rates),
-	url(r"^rate_calculation", web.views.rate_calculation),
-    url(r"^about", web.views.about),
+	url(r"^about", web.views.about),	
+	url(r"^munter_calc", web.views.munter_calc),	
+    url(r"^munter_about", web.views.munter_about),
+	url(r"^chauvin_calc", web.views.chauvin_calc),
+	url(r"^chauvin_about", web.views.chauvin_about),
+	url(r"^technical_calc", web.views.technical_calc),
+	url(r"^technical_about", web.views.technical_about),
 	url(r"^", web.views.index),
     # url(r'^web/', include('web.foo.urls')),
 
