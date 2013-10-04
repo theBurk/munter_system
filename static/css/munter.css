@@ -31,3 +31,12 @@ h2{
 	padding-left: 5px;
 	padding-right: 5px;
 }
+
+#terrainLabels{
+	position: absolute; 
+	width: 100%; 
+	right:0%; 
+	bottom:60px; 
+	padding-right:10px; 
+	padding-left: 10px;	
+}
