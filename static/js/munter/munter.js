@@ -3,7 +3,8 @@ msa = angular.module("msApp", ["ngResource"]);
 msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
     function($scope, MunterTrip) {
 		// Munter System units		
-        $scope.elevationUnits = {
+        
+		$scope.elevationUnits = {
             m: "m",
             ft: "ft"
         };
@@ -20,69 +21,103 @@ msa.controller("MunterSystemCtrl", ["$scope", "MunterTrip",
             distanceUnit: $scope.distanceUnits.mi,
         });
 
-		// calculates time in seconds using munter system
-		$scope.munterTime = function() {
-			var dist = $scope.munterTrip.distance ? $scope.munterTrip.distance : 0;
-			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
-			var munterUnits = normalize(dist, $scope.munterTrip.distanceUnit)/1000 + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit))/100;
-			return munterUnits / ($scope.munterTrip.rate/3600);
-		};
-
-		// calculates time in seconds using chauvin system
-		$scope.chauvinTime = function() {
-			var dist = $scope.munterTrip.distance ? $scope.munterTrip.distance : 0;
-			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
-			var chauvinUnits = (normalize(dist, $scope.munterTrip.distanceUnit) + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit)))/60;
-			return chauvinUnits * ($scope.munterTrip.rate * 60);
-		};
-
-		// calculates time in seconds for technical climbing
-		$scope.technicalTime = function() {
-			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
-			return elev * ($scope.munterTrip.rate * 60);
+		
+		// calculates travel time in seconds using specified mode of calculation (munter / chauvin / techical)
+		$scope.time = function(mode) {
+			var dist = (!$scope.munterTrip.distance || $scope.munterTrip.distance==".")  ? 0 : $scope.munterTrip.distance;
+			var elev = (!$scope.munterTrip.elevation || $scope.munterTrip.elevation=="." || $scope.munterTrip.elevation=="-")  ? 0 : $scope.munterTrip.elevation;
+			var pit = (!$scope.munterTrip.pitches || $scope.munterTrip.pitches==".")  ? 0 : $scope.munterTrip.pitches;
+			var time;
+			var units;
+			
+			switch(mode) {
+				case "munter":
+					units = normalize(dist, $scope.munterTrip.distanceUnit)/1000 + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit))/100;
+					time =  units / ($scope.munterTrip.rate/3600);
+					break;
+				case "chauvin":
+					units = (normalize(dist, $scope.munterTrip.distanceUnit) + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit)))/60;
+					time = units * ($scope.munterTrip.rate * 60);
+					break;
+				case "technical":
+					time = pit * ($scope.munterTrip.rate * 60);
+					break;
+			}
+			
+			return time;
 		};
 		
-		// calculates munter rate
-		$scope.rate = function() {
-			var dist = $scope.munterTrip.distance ? $scope.munterTrip.distance : 0;
-			var elev = $scope.munterTrip.elevation ? $scope.munterTrip.elevation : 0;
-			var munterUnits = normalize(dist, $scope.munterTrip.distanceUnit)/1000 + Math.abs(normalize(elev, $scope.munterTrip.elevationUnit))/100;
-			var hrs = $scope.munterTrip.hours ? $scope.munterTrip.hours : 0;
-			var min = $scope.munterTrip.minutes ? $scope.munterTrip.minutes : 0;
-			return Math.round(10*munterUnits / (hrs/1 + min/60))/10;
+		
+		// --------------------------------------------------
+		//  Data validation
+		// --------------------------------------------------
+		
+		var maxRate = 300;
+		var maxDistance = 50000;			
+		var maxElevation = 50000;			
+		var maxPitches = 100;				
+
+		
+		// test if inputs is valid
+		$scope.isValidRate = function(val) {
+			return !val || val=="." || (isNumber(val) && val>0 && val<=maxRate);
 		};
 		
-        // test if length inputs (distance & elevation) are valid
-		$scope.isValidLength = function(val) {
-            return !val || (isNumber(val) && val>=0);
+		$scope.isValidDistance = function(val) {
+            return !val || val=="." ||  (isNumber(val) && val>=0 && val<=maxDistance);
         };
 		
-        // test if rate input is valid
-		$scope.isValidRate = function(val) {
-			return !val || (isNumber(val) && val>0 && val<200);
-		};
+		$scope.isValidElevation = function(val) {
+            return !val || val=="."  || val=="-" ||  (isNumber(val) && val<=maxElevation);
+        };
 		
-        // test if hours input is valid
-		$scope.isValidHours = function(val) {
-			return !val || (isNumber(val) && val>=0 && val<48);
+		$scope.isValidPitches = function(val) {
+            return !val || val=="." ||  (isNumber(val) && val>=0 && val<=maxPitches);
+        };		
+
+		$scope.isValidEverything = function(){
+			return $scope.isValidRate($scope.munterTrip.rate) && $scope.isValidDistance($scope.munterTrip.distance) && $scope.isValidElevation($scope.munterTrip.elevation) && $scope.isValidPitches($scope.munterTrip.pitches);
 		};
+
 		
-        // test if minutes input is valid
-		$scope.isValidMinutes= function(val) {
-			return !val || (isNumber(val) && val>=0 && val<600);
+		// compose error message based on which inputs are not valid
+		$scope.errorMessage = function() {
+			var errorText = "invalid ";
+			var errorPresent = false;
+			
+			if (!$scope.isValidRate($scope.munterTrip.rate)) {
+				errorPresent = true;
+				errorText = errorText + "rate";
+			}
+			
+			if (!$scope.isValidDistance($scope.munterTrip.distance)) {
+				errorText = (errorPresent == true) ? (errorText + ", "):errorText;
+				errorPresent = true;
+				errorText = errorText + "distance";
+			}
+	
+			if (!$scope.isValidElevation($scope.munterTrip.elevation)) {
+				errorText = (errorPresent == true) ? (errorText + ", "):errorText;
+				errorPresent = true;
+				errorText = errorText + "elevation";
+			}
+			
+			if (!$scope.isValidPitches($scope.munterTrip.pitches)) {
+				errorText = (errorPresent == true) ? (errorText + ", "):errorText;
+				errorPresent = true;
+				errorText = errorText + "pitches";
+			}
+			
+			return errorText;
 		};
+
 		
 		// true if all necessary inputs are present and valid
 		$scope.showTime = function() {
-			return (($scope.munterTrip.elevation && $scope.isValidLength($scope.munterTrip.elevation)) || ($scope.munterTrip.distance && $scope.isValidLength($scope.munterTrip.distance)))
-			&& $scope.munterTrip.rate && $scope.isValidRate($scope.munterTrip.rate);
+			return ($scope.munterTrip.elevation || $scope.munterTrip.distance || $scope.munterTrip.pitches) && $scope.munterTrip.rate 
+			&& $scope.isValidElevation($scope.munterTrip.elevation) && $scope.isValidDistance($scope.munterTrip.distance) && $scope.isValidPitches($scope.munterTrip.pitches) && $scope.isValidRate($scope.munterTrip.rate);
 		};
 		
-		$scope.showRate = function() {
-			return (($scope.munterTrip.distance && $scope.isValidLength($scope.munterTrip.distance)) || ($scope.munterTrip.elevation && $scope.isValidLength($scope.munterTrip.elevation)))
-			&& (($scope.munterTrip.hours && $scope.isValidHours($scope.munterTrip.hours)) || ($scope.munterTrip.minutes && $scope.isValidMinutes($scope.munterTrip.minutes)))
-			&& !($scope.munterTrip.hours + $scope.munterTrip.minutes == 0);
-		};
     }
 ]);
 
@@ -117,7 +152,7 @@ msa.filter("prettyTime", function(){
         // returns a string of the format: hh:mm:ss
         // the "join(<delimiter>)" function is a sweet native JS function on Arrays (things liek [el0, el1, ..., elN])
         //   that concats the Array elements separated by the <delimiter> string that you can specify (in this case, a colon ":")
-        return [h + " hr ", (m < 10 ? "0" : "") + m + "  min"].join("");
+        return h<(7*24) ? [h + " hr ", (m < 10 ? "0" : "") + m + "  min"].join("") : "way too much...";
     };
 });
 
@@ -139,7 +174,7 @@ function normalize(value, units) {
 }
 
 function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n) ;
 }
 
 // --------------------------------------------------

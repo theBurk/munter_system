@@ -41,9 +41,6 @@
                     <label for="rate" class="col-xs-4 control-label text-right">rate</label>
                     <div class="col-xs-4">
                         <input type="input" class="form-control text-right" id="rate" placeholder="0" ng-model="munterTrip.rate" />
-                        <label class="control-label text-right" for="rate" ng-hide="isValidRate(munterTrip.rate)">
-                            invalid entry
-                        </label>
                     </div>
 					<div class="col-xs-4">
                         <p class="form-control pForm">units/hr</p>
@@ -51,13 +48,10 @@
                 </div>
 
                 <!-- distance -->
-                <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.distance)}">
+                <div class="form-group" ng-class="{'has-error': !isValidDistance(munterTrip.distance)}">
                     <label for="distance" class="col-xs-4 control-label text-right">distance</label>
                     <div class="col-xs-4">
                         <input type="input" class="form-control text-right" id="distance" placeholder="0" ng-model="munterTrip.distance" />
-                        <label class="control-label text-right" for="distance" ng-hide="isValidLength(munterTrip.distance)">
-                            invalid entry
-                        </label>
                     </div>
                     <div class="col-xs-4">
                         <select class="form-control" ng-model="munterTrip.distanceUnit" name="distanceUnit" ng-options="v for (k,v) in distanceUnits"></select>
@@ -65,23 +59,23 @@
                 </div>
 
 				<!--  elevation -->
-                <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.elevation)}">
+                <div class="form-group" ng-class="{'has-error': !isValidElevation(munterTrip.elevation)}">
                     <label for="elevation" class="col-xs-4 control-label text-right">elevation</label>
                     <div class="col-xs-4">
-                        <input type="input" class="form-control text-right" id="elevation" placeholder="0" ng-model="munterTrip.elevation" />
-                        <label class="control-label text-right" for="elevation" ng-hide="isValidLength(munterTrip.elevation)">
-                            invalid entry
-                        </label>
+                        <input type="input" class="form-control text-right" id="elevation" placeholder="0" ng-model="munterTrip.elevation" />        
                     </div>
                     <div class="col-xs-4">
                         <select class="form-control" ng-model="munterTrip.elevationUnit" name="elevationUnit" ng-options="v for (k,v) in elevationUnits"></select>
                     </div>
                 </div>
+				
+				<p class="text-center text-danger" for="elevation" ng-hide="isValidEverything()">{{errorMessage()}}</p>
+				
 			</form>
 			<br /> 
 			<!-- Output -->
 			<h4 ng-show="showTime()">time</h4>
-            <h2 class="text-center" ng-show="showTime()">{{munterTime()|prettyTime}}</h2>
+            <h2 class="text-center" ng-show="showTime()">{{time("munter")|prettyTime}}</h2>
 			
 		</div>
 		<!--

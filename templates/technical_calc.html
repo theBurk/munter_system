@@ -41,31 +41,28 @@
                     <label for="rate" class="col-xs-4 control-label text-right">rate</label>
                     <div class="col-xs-4">
                         <input type="input" class="form-control text-right" id="rate" placeholder="0" ng-model="munterTrip.rate" />
-                        <label class="control-label text-right" for="rate" ng-hide="isValidRate(munterTrip.rate)">
-                            invalid entry
-                        </label>
                     </div>
 					<div class="col-xs-4">
                         <p class="form-control pForm">min/pitch</p>
                     </div>
                 </div>
 
-				<!--  elevation -->
-                <div class="form-group" ng-class="{'has-error': !isValidLength(munterTrip.elevation)}">
-                    <label for="elevation" class="col-xs-4 control-label text-right">pitches</label>
+				<!--  pitches -->
+                <div class="form-group" ng-class="{'has-error': !isValidPitches(munterTrip.pitches)}">
+                    <label for="pitches" class="col-xs-4 control-label text-right">pitches</label>
                     <div class="col-xs-4">
-                        <input type="input" class="form-control text-right" id="elevation" placeholder="0" ng-model="munterTrip.elevation" />
-                        <label class="control-label text-right" for="elevation" ng-hide="isValidLength(munterTrip.elevation)">
-                            invalid entry
-                        </label>
+                        <input type="input" class="form-control text-right" id="elevation" placeholder="0" ng-model="munterTrip.pitches" />
                     </div>
                 </div>
+				
+				<p class="text-center text-danger" for="elevation" ng-hide="isValidEverything()">{{errorMessage()}}</p>
+				
 			</form>
 			<br /> 
 			
 			<!-- Output -->
 			<h4 ng-show="showTime()">time</h4>
-            <h2 class="text-center" ng-show="showTime()">{{technicalTime()|prettyTime}}</h2>
+            <h2 class="text-center" ng-show="showTime()">{{time("technical")|prettyTime}}</h2>
 			
 		</div>
 
